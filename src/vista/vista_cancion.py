@@ -275,20 +275,20 @@ class Ventana_Cancion(QWidget):
         widget_botones.setFixedHeight(50)
         widget_botones.setLayout(QGridLayout())
 
-        butAceptar = QPushButton("Aceptar")
+        but_aceptar = QPushButton("Aceptar")
         butCancelar = QPushButton("Cancelar")
 
-        widget_botones.layout().addWidget(butAceptar,0,0)
+        widget_botones.layout().addWidget(but_aceptar,0,0)
         widget_botones.layout().addWidget(butCancelar,0,1)
 
         layout.addWidget(widget_botones, 4,0,1,2)
 
         if n_interprete == -1:
             self.dialogo_nuevo_interprete.setWindowTitle("Añadir nuevo interprete")
-            butAceptar.clicked.connect(lambda: self.agregar_interprete(txt1.text(), txt2.toPlainText()))
+            but_aceptar.clicked.connect(lambda: self.agregar_interprete(txt1.text(), txt2.toPlainText()))
         else:
             self.dialogo_nuevo_interprete.setWindowTitle("Modificar interprete")
-            butAceptar.clicked.connect(lambda: self.modificar_interprete(n_interprete, txt1.text(), txt2.toPlainText()))
+            but_aceptar.clicked.connect(lambda: self.modificar_interprete(n_interprete, txt1.text(), txt2.toPlainText()))
         butCancelar.clicked.connect(lambda: self.dialogo_nuevo_interprete.close())
         self.dialogo_nuevo_interprete.exec_()
 

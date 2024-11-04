@@ -180,13 +180,13 @@ class Ventana_Lista_Album(QWidget):
         layout.addWidget(lab4, 3, 0)
         layout.addWidget(combo4, 3, 1)
 
-        butAceptar = QPushButton("Aceptar")
+        but_aceptar = QPushButton("Aceptar")
         butCancelar = QPushButton("Cancelar")
 
-        layout.addWidget(butAceptar, 4, 0)
+        layout.addWidget(but_aceptar, 4, 0)
         layout.addWidget(butCancelar, 4, 1)
 
-        butAceptar.clicked.connect(lambda: self.crear_album(
+        but_aceptar.clicked.connect(lambda: self.crear_album(
             {"titulo": txt1.text(), "interpretes": "", "medio": combo4.currentText(), "ano": txt2.text(),
              "descripcion": txt3.text()}))
         butCancelar.clicked.connect(lambda: self.dialogo_nuevo_album.close())

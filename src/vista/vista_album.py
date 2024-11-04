@@ -240,18 +240,18 @@ class Ventana_Album(QWidget):
             lista_canciones.addItem("{}".format(cancion["titulo"]), cancion["id"] )
         layout.addWidget(lista_canciones,1,0)
 
-        butAceptar = QPushButton("Agregar")
+        but_aceptar = QPushButton("Agregar")
         butCancelar = QPushButton("Cancelar")
         
         caja_botones = QWidget()
         caja_botones.setLayout(QGridLayout())
 
-        caja_botones.layout().addWidget(butAceptar,0,0, QtCore.Qt.AlignTop | QtCore.Qt.AlignCenter)
+        caja_botones.layout().addWidget(but_aceptar,0,0, QtCore.Qt.AlignTop | QtCore.Qt.AlignCenter)
         caja_botones.layout().addWidget(butCancelar,0,1, QtCore.Qt.AlignTop | QtCore.Qt.AlignCenter)
         
         layout.addWidget(caja_botones, 3, 0, QtCore.Qt.AlignTop | QtCore.Qt.AlignCenter )
 
-        butAceptar.clicked.connect(lambda: self.asociar_cancion_a_album( lista_canciones.currentData()))
+        but_aceptar.clicked.connect(lambda: self.asociar_cancion_a_album( lista_canciones.currentData()))
         butCancelar.clicked.connect(lambda: self.dialogo_agregar_cancion.close())
 
         self.dialogo_agregar_cancion.setWindowTitle("Añadir nueva canción")
