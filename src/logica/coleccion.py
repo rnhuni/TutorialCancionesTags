@@ -132,7 +132,8 @@ class Coleccion():
                 return True
             else:
                 return False
-        except:
+        except Exception as e:
+            print(f"Error al eliminar una canción {e}")
             return False
 
     def dar_canciones(self):
