@@ -68,39 +68,24 @@ class Coleccion():
         return albumes
 
     def agregar_cancion(self, titulo, minutos, segundos, compositor, album_id, interpretes):
-        interpretes_cancion = []
-        if len(interpretes) == 0:
+        if not interpretes:
             return False
-        else:
-            if album_id > 0:
-                busqueda = session.query(Cancion).filter(Cancion.albumes.any(Album.id.in_([album_id])),
-                                                         Cancion.titulo == titulo).all()
-                if len(busqueda) == 0:
-                    album = session.query(Album).filter(Album.id == album_id).first()
-                    nueva_cancion = Cancion(titulo=titulo, minutos=minutos, segundos=segundos, compositor=compositor,
-                                           albumes=[album])
-                    for item in interpretes:
-                        interprete = Interprete(nombre=item["nombre"], texto_curiosidades=item["texto_curiosidades"],
-                                                cancion=nueva_cancion.id)
-                        session.add(interprete)
-                        interpretes_cancion.append(interprete)
-                    nueva_cancion.interpretes = interpretes_cancion
-                    session.add(nueva_cancion)
-                    session.commit()
-                    return True
-                else:
-                    return False
-            else:
-                nueva_cancion = Cancion(titulo=titulo, minutos=minutos, segundos=segundos, compositor=compositor)
-                for item in interpretes:
-                    interprete = Interprete(nombre=item["nombre"], texto_curiosidades=item["texto_curiosidades"],
-                                            cancion=nueva_cancion.id)
-                    session.add(interprete)
-                    interpretes_cancion.append(interprete)
-                nueva_cancion.interpretes = interpretes_cancion
-                session.add(nueva_cancion)
-                session.commit()
-                return True
+
+        busqueda = session.query(Cancion).filter(Cancion.albumes.any(Album.id == album_id), Cancion.titulo == titulo).all()
+        if album_id > 0 and busqueda:
+            return False
+
+        album = session.query(Album).filter(Album.id == album_id).first() if album_id > 0 else None
+        nueva_cancion = Cancion(titulo=titulo, minutos=minutos, segundos=segundos, compositor=compositor, albumes=[album] if album else [])
+
+        for item in interpretes:
+            interprete = Interprete(nombre=item["nombre"], texto_curiosidades=item["texto_curiosidades"], cancion=nueva_cancion.id)
+            session.add(interprete)
+
+        session.add(nueva_cancion)
+        session.commit()
+        return True
+
 
     def editar_cancion(self, cancion_id, titulo, minutos, segundos, compositor, interpretes):
         busqueda = session.query(Cancion).filter(Cancion.titulo == titulo, Cancion.id != cancion_id).all()
