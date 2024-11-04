@@ -77,28 +77,28 @@ class Coleccion():
                                                          Cancion.titulo == titulo).all()
                 if len(busqueda) == 0:
                     album = session.query(Album).filter(Album.id == album_id).first()
-                    nuevaCancion = Cancion(titulo=titulo, minutos=minutos, segundos=segundos, compositor=compositor,
+                    nueva_cancion = Cancion(titulo=titulo, minutos=minutos, segundos=segundos, compositor=compositor,
                                            albumes=[album])
                     for item in interpretes:
                         interprete = Interprete(nombre=item["nombre"], texto_curiosidades=item["texto_curiosidades"],
-                                                cancion=nuevaCancion.id)
+                                                cancion=nueva_cancion.id)
                         session.add(interprete)
                         interpretes_cancion.append(interprete)
-                    nuevaCancion.interpretes = interpretes_cancion
-                    session.add(nuevaCancion)
+                    nueva_cancion.interpretes = interpretes_cancion
+                    session.add(nueva_cancion)
                     session.commit()
                     return True
                 else:
                     return False
             else:
-                nuevaCancion = Cancion(titulo=titulo, minutos=minutos, segundos=segundos, compositor=compositor)
+                nueva_cancion = Cancion(titulo=titulo, minutos=minutos, segundos=segundos, compositor=compositor)
                 for item in interpretes:
                     interprete = Interprete(nombre=item["nombre"], texto_curiosidades=item["texto_curiosidades"],
-                                            cancion=nuevaCancion.id)
+                                            cancion=nueva_cancion.id)
                     session.add(interprete)
                     interpretes_cancion.append(interprete)
-                nuevaCancion.interpretes = interpretes_cancion
-                session.add(nuevaCancion)
+                nueva_cancion.interpretes = interpretes_cancion
+                session.add(nueva_cancion)
                 session.commit()
                 return True
 
