@@ -68,7 +68,7 @@ class Coleccion():
         return albumes
 
     def agregar_cancion(self, titulo, minutos, segundos, compositor, album_id, interpretes):
-        interpretesCancion = []
+        interpretes_cancion = []
         if len(interpretes) == 0:
             return False
         else:
@@ -83,8 +83,8 @@ class Coleccion():
                         interprete = Interprete(nombre=item["nombre"], texto_curiosidades=item["texto_curiosidades"],
                                                 cancion=nuevaCancion.id)
                         session.add(interprete)
-                        interpretesCancion.append(interprete)
-                    nuevaCancion.interpretes = interpretesCancion
+                        interpretes_cancion.append(interprete)
+                    nuevaCancion.interpretes = interpretes_cancion
                     session.add(nuevaCancion)
                     session.commit()
                     return True
@@ -96,8 +96,8 @@ class Coleccion():
                     interprete = Interprete(nombre=item["nombre"], texto_curiosidades=item["texto_curiosidades"],
                                             cancion=nuevaCancion.id)
                     session.add(interprete)
-                    interpretesCancion.append(interprete)
-                nuevaCancion.interpretes = interpretesCancion
+                    interpretes_cancion.append(interprete)
+                nuevaCancion.interpretes = interpretes_cancion
                 session.add(nuevaCancion)
                 session.commit()
                 return True
