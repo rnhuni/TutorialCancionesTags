@@ -57,7 +57,7 @@ class InterpreteTestCase(unittest.TestCase):
                                            [{'id': 'n', 'nombre': "Jorge Celedón",
                                              'texto_curiosidades': texto_curiosidades}])
         consulta2 = self.coleccion.buscar_canciones_por_interprete("Jorge Celedón")
-        self.assertEqual(len(consulta2), 0)
+        self.assertEqual(len(consulta2), 0) 
 
     def test_buscar_cualquier_coincidencia(self):
         consulta1 = self.session.query(Interprete).filter(Interprete.nombre == "Jorge Velosa").first()
