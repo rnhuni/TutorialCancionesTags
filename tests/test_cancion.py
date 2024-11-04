@@ -139,3 +139,23 @@ class CancionTestCase(unittest.TestCase):
     def test_dar_cancion_por_id(self):
         consulta = self.coleccion.dar_cancion_por_id(1)
         self.assertEqual(consulta["titulo"], "Baby blues")
+
+    def test_cancion_repetida_album(self):
+        titulo_album = self.data_factory.name()
+        anio_album = self.data_factory.year()
+        descripcion_album = self.data_factory.sentence()
+        self.coleccion.agregar_album(titulo_album, anio_album, descripcion_album, "CD")
+        consulta1 = self.session.query(Album).filter(Album.titulo == titulo_album).first().id
+        nombre_interprete1 = self.data_factory.name()
+        texto_curiosidades1 = self.data_factory.sentence()
+        self.coleccion.agregar_interprete(nombre_interprete1, texto_curiosidades1, -1)
+        titulo_cancion = self.data_factory.name()
+        minutos_cancion = self.data_factory.pyint(0, 60)
+        segundos_cancion = self.data_factory.pyint(0, 60)
+        compositor_cancion = self.data_factory.name()
+        self.coleccion.agregar_cancion(titulo_cancion, minutos_cancion, segundos_cancion, compositor_cancion, consulta1,
+                                    [{'nombre': nombre_interprete1, 'texto_curiosidades': texto_curiosidades1}])
+        resultado = self.coleccion.agregar_cancion(titulo_cancion, minutos_cancion, segundos_cancion, compositor_cancion, consulta1,
+                                                    [{'nombre': nombre_interprete1, 'texto_curiosidades': texto_curiosidades1}])
+        self.assertEqual(resultado, False)
+
