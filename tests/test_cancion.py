@@ -159,3 +159,35 @@ class CancionTestCase(unittest.TestCase):
                                                     [{'nombre': nombre_interprete1, 'texto_curiosidades': texto_curiosidades1}])
         self.assertEqual(resultado, False)
 
+    def test_agregar_cancion_sin_interpretes(self):
+        resultado = self.coleccion.agregar_cancion("Canción 1", 3, 30, "Compositor 1", -1, [])
+        self.assertEqual(resultado, False)
+
+    def test_agregar_cancion_con_album_existente_y_repetido(self):
+        titulo_album = self.data_factory.name()
+        anio_album = self.data_factory.year()
+        descripcion_album = self.data_factory.sentence()
+        self.coleccion.agregar_album(titulo_album, anio_album, descripcion_album, "CD")
+        consulta1 = self.session.query(Album).filter(Album.titulo == titulo_album).first().id
+
+        self.coleccion.agregar_cancion("Canción 1", 3, 30, "Compositor 1", consulta1, 
+                                    [{'nombre': 'Interprete 1', 'texto_curiosidades': 'Curiosidad 1'}])
+        resultado = self.coleccion.agregar_cancion("Canción 1", 3, 30, "Compositor 1", consulta1, 
+                                                    [{'nombre': 'Interprete 1', 'texto_curiosidades': 'Curiosidad 1'}])
+        self.assertEqual(resultado, False)
+
+    def test_agregar_cancion_con_album_nuevo(self):
+        titulo_album = self.data_factory.name()
+        anio_album = self.data_factory.year()
+        descripcion_album = self.data_factory.sentence()
+        self.coleccion.agregar_album(titulo_album, anio_album, descripcion_album, "CD")
+        consulta1 = self.session.query(Album).filter(Album.titulo == titulo_album).first().id
+
+        resultado = self.coleccion.agregar_cancion("Canción 2", 4, 15, "Compositor 2", consulta1, 
+                                                [{'nombre': 'Interprete 2', 'texto_curiosidades': 'Curiosidad 2'}])
+        self.assertEqual(resultado, True)
+        consulta_cancion = self.session.query(Cancion).filter(Cancion.titulo == "Canción 2").first()
+        self.assertIsNotNone(consulta_cancion)
+        self.assertEqual(len(consulta_cancion.interpretes), 1)
+
+    
